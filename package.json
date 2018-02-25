@@ -1,0 +1,25 @@
+{
+  "name": "sv-code-assement-api-gateway",
+  "version": "1.0.0",
+  "description": "### Initial Set up",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "deploy": "$(npm bin)/serverless deploy",
+    "build-dev": "$(npm bin)/serverless dynamodb install && $(npm bin)/serverless dynamodb start",
+    "dev": "$(npm bin)/serverless wsgi serve",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "serverless": "^1.26.0",
+    "serverless-python-requirements": "^3.3.0"
+  },
+  "devDependencies": {
+    "serverless-dynamodb-local": "^0.2.27",
+    "serverless-wsgi": "^1.4.6"
+  }
+}
