@@ -3,16 +3,22 @@
 Write an REST based API using API Gateway which takes name, email, password in JSON format from HTTP POST, calls a LAMBDA function which validates the format of that data and stores that in DB of your choice. Preferable Dynamo DB or Redis. This should take 45 minutes
 
 ## Features:
-	* Create User Route X
+	* Create User Route
 		* Creates a user
-		* Unique email validation X
+		* Unique email validation
 		* Password validation
-		* String and length field validation X
+		* String and length field validation
 	
-	* List Users Route X
-		* Lists users x
+	* List Users Route
+		* Lists users
 		* User friendly dates
 		* Default sort by email
+
+## Notes:
+
+1. Email is the partition key, and the only field that is nessacerily unique, since we're using a DynamoDB is a key:value store to save our users.
+
+2. Since it's a simple app, I put helper function directly underneath the handlers that use them instead of in a utils file.
 
 ## Routes
 
@@ -91,8 +97,4 @@ npm run build-dev
 npm run dev
 
 ```
-
-## Notes:
-
-Email is the partition key, and the only field that is nessacerily unique, since we're using a DynamoDB is a key:value store to save our users.
 
