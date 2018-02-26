@@ -29,12 +29,9 @@ Creates a new user with a unique email address.
 #### Example Request:
 
 ```
-
-curl -d '{"name": "sam", "email": "test@test.com", "password": "test123"}' \
+curl -d '{"name": "sam", "email": "test@test.com", "password": "Test123676767"}' \
 -H "Content-Type: application/json" \
 -X POST https://st23564ow0.execute-api.us-east-1.amazonaws.com/dev/users
-
-
 ```
 
 #### Example Response:
@@ -83,6 +80,8 @@ _https://st23564ow0.execute-api.us-east-1.amazonaws.com/dev/users_
 ### Develop Locally
 
 _Note: You will need you're own set of AWS credentials_
+
+_If the app fails to build for any locally for reason it can still be tested using the dev routes above._
 
 ```
 cd [into_project]

@@ -1,0 +1,43 @@
+_Saving edge case that in real life would be worked into unit testing_
+
+# USER ALREADY EXISTS
+
+```
+curl -d '{"name": "sam", "email": "test@test.com", "password": "Test123676767"}' \
+-H "Content-Type: application/json" \
+-X POST https://st23564ow0.execute-api.us-east-1.amazonaws.com/dev/users
+```
+
+# "Password must be at lest 8 letters"
+
+```
+curl -d '{"name": "sam", "email": "test3@test.com", "password": "test123"}' \
+-H "Content-Type: application/json" \
+-X POST https://st23564ow0.execute-api.us-east-1.amazonaws.com/dev/users
+```
+
+# "Password must contain upper and lowercase letters"
+
+```
+curl -d '{"name": "sam", "email": "test1@test.com", "password": "test123676767"}' \
+-H "Content-Type: application/json" \
+-X POST  https://st23564ow0.execute-api.us-east-1.amazonaws.com/dev/users
+```
+
+# "Password must contain upper and lowercase letters"
+
+```
+curl -d '{"name": "sam", "email": "test1@test.com", "password": "TEST123676767"}' \
+-H "Content-Type: application/json" \
+-X POST https://st23564ow0.execute-api.us-east-1.amazonaws.com/dev/users
+```
+
+# "Invalid name"
+
+```
+
+curl -d '{"name": 7, "email": "test1@test.com", "password": "Test123676767"}' \
+-H "Content-Type: application/json" \
+-X POST  https://st23564ow0.execute-api.us-east-1.amazonaws.com/dev/users
+
+```

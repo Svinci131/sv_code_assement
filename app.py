@@ -43,7 +43,6 @@ def create_user():
     try:
         payload = _validatePayload(request)
         timestamp = int(time.time() * 1000)
-
         user = {
             'name': payload.get('name'),
             'email': payload.get('email'),
@@ -56,10 +55,9 @@ def create_user():
             Item=user,
             Expected={'email': {'Exists': False}}
         )
-
         return jsonify(user), 200
-    except BaseException as e:
-        logger.info('ERROR', str(e))
+    except Exception as e:
+        logger.info('ERROR {}'.format(str(e)))
         return _customizeErrorMessage(e)
 
 
@@ -124,15 +122,14 @@ def _encodePassword(password):
     stringifyPW = str.encode(password)
     return hashlib.sha224(stringifyPW).hexdigest()
 
-
 def _customizeErrorMessage(e):
     err = str(e)
-    if _checkUserExistsError(e):
+    if _isUserExistsError(e) == True:
         err = "User already exists"
 
     return jsonify({'error': err}), 400
 
-def _checkUserExistsError(err):
+def _isUserExistsError(err):
     try:
       if err.response['Error']['Code'] == "ConditionalCheckFailedException":
         return True
@@ -140,7 +137,7 @@ def _checkUserExistsError(err):
         return False
 
     except BaseException as e:
-        return err
+        return False
 
 @app.route("/users", methods=["GET"])
 def list():
@@ -163,5 +160,5 @@ def list():
         }
         return jsonify(resp)
     except BaseException as e:
-        logger.info('ERROR', str(e))
+        logger.info('ERROR {}'.format(str(e)))
         return jsonify({'error': str(e)}), 400

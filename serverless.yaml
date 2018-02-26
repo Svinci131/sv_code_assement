@@ -46,7 +46,7 @@ functions:
   create:
     handler: wsgi.handler
     events:
-      - http: 'POST /user'
+      - http: 'POST /users'
   list:
     handler: wsgi.handler
     events:
