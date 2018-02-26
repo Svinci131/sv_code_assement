@@ -6,6 +6,7 @@ import decimal, simplejson
 import hashlib
 import logging
 import os
+import re
 import simplejson as json
 import time
 import uuid
@@ -56,6 +57,7 @@ def create_user():
 
         return jsonify(user), 200
     except BaseException as e:
+        logger.info('ERROR', str(e))
         return _customizeErrorMessage(e) 
 
 def _validatePayload(request):
@@ -84,10 +86,34 @@ def _validateField(request, field):
     """
     val = request.json.get(field, '')
 
-    if (type(val) is not str or len(val) < 1):
+    if type(val) is not str or len(val) < 1:
         raise Exception('Invalid {}'.format(field))
+    elif field == 'password':
+        return _validatePassword(val)
     else:
         return val
+
+def _validatePassword(password):
+    """
+        Checks that password is longer than
+        8 characters and that it contains upper and lowercase
+        letters and at least one number.
+
+        :type password: string
+        :rtype: string
+    """
+    #TO DO GET RID OF if ()
+    uppercaseChars = re.search('[A-Z]',password)
+    lowercaseChars = re.search('[a-z]',password)
+
+    if len(password) < 8:
+        raise Exception("Password must be at lest 8 letters")
+    elif re.search('[0-9]',password) is None:
+        raise Exception("Password must contain atleast one number")
+    elif uppercaseChars is None or lowercaseChars is None: 
+        raise Exception("Password must contain upper and lowercase letters")
+    else:
+        return password
 
 def _encodePassword(password):
     stringifyPW = str.encode(password)
@@ -95,10 +121,7 @@ def _encodePassword(password):
 
 def _customizeErrorMessage(e):
     err = str(e)
-
-    logger.info('ERROR', err)
-
-    if (e.response['Error']['Code'] == "ConditionalCheckFailedException"):
+    if (type(e) is dict and e.get('response', {}).get('Error', {}).get('Code', {}) == "ConditionalCheckFailedException"):
         err = "User already exists"
 
     return jsonify({'error': err }), 400
